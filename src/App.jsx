@@ -1,17 +1,19 @@
 import Icon from "./Icon.jsx";
+import Vsl, { temVsl } from "./Vsl.jsx";
 import { config, camposPendentes, checkoutValido } from "./config.js";
 
 const checkoutPronto = checkoutValido(config.checkoutUrl);
 const previsto = !config.conteudoFinalizado;
-const hero = config.fotos?.hero;
-const temFoto = Boolean(hero?.src);
+const { capturaVideo, checklist } = config.materiais;
+const temMateriais = Boolean(capturaVideo.src || checklist.src);
+const preco = `R$ ${config.preco.valor}`;
+const condicao =
+  config.preco.condicao[0].toUpperCase() + config.preco.condicao.slice(1);
 
-// Pendências comerciais: só aparecem no console durante o desenvolvimento.
-// A página pública nunca mostra avisos administrativos.
+// Pendências: só no console em desenvolvimento, nunca na página pública.
 if (import.meta.env.DEV) {
   const p = camposPendentes();
   if (p.length) console.warn("[LP] Pendências em src/config.js:", p.join(", "));
-  if (!temFoto) console.warn("[LP] Foto principal pendente (config.fotos.hero).");
 }
 
 function Container({ children, className = "" }) {
@@ -22,77 +24,64 @@ function Container({ children, className = "" }) {
   );
 }
 
-/** Sem checkout configurado, o botão leva à seção da oferta. */
-function BotaoCompra({ children, className = "" }) {
+function Botao({ href, children, className = "" }) {
   return (
     <a
-      href={checkoutPronto ? config.checkoutUrl.trim() : "#oferta"}
-      className={`inline-flex min-h-14 w-full items-center justify-center rounded-xl bg-cta px-7 py-4 text-center text-base font-extrabold uppercase tracking-wide text-cta-ink transition-colors hover:bg-cta-hover sm:w-auto ${className}`}
+      href={href}
+      className={`inline-flex min-h-14 w-full items-center justify-center rounded-xl bg-cta px-8 py-4 text-center text-base font-extrabold uppercase tracking-wide text-cta-ink transition-colors hover:bg-cta-hover sm:w-auto ${className}`}
     >
       {children}
     </a>
   );
 }
 
-function Titulo({ children, id, claro = false }) {
+function Titulo({ children, id }) {
   return (
     <h2
       id={id}
-      className={`text-balance text-[1.75rem] font-extrabold leading-tight tracking-tight sm:text-4xl ${
-        claro ? "text-white" : "text-navy-900"
-      }`}
+      className="text-balance text-[1.75rem] font-extrabold leading-tight tracking-tight text-navy-900 sm:text-4xl"
     >
       {children}
     </h2>
   );
 }
 
-/* 1. DOR */
+function Check({ children }) {
+  return (
+    <li className="flex gap-3">
+      <span className="mt-1 text-green-700">
+        <Icon name="check" className="h-5 w-5" />
+      </span>
+      {children}
+    </li>
+  );
+}
+
+/* 1. DOR + VSL */
 function Hero() {
   return (
     <header className="bg-navy-900 text-white">
-      <Container
-        className={`grid gap-8 py-10 sm:py-16 ${
-          temFoto ? "md:grid-cols-2 md:items-center md:gap-12" : ""
-        }`}
-      >
-        <div className={temFoto ? "" : "max-w-3xl"}>
-          <h1 className="text-[2.1rem] font-extrabold leading-[1.1] tracking-tight sm:text-[2.6rem]">
-            Levaram seu celular. E se conseguirem acessar suas contas?
-          </h1>
-          <p className="mt-5 text-lg text-navy-100 sm:text-xl">
-            Antes de viajar, aprenda a configurar proteções para reduzir o
-            risco de acesso ao seu WhatsApp, e-mail e aplicativos importantes.
-          </p>
-          <div className="mt-7">
-            <BotaoCompra>Quero preparar meu celular</BotaoCompra>
-          </div>
-        </div>
+      <Container className="py-10 text-center sm:py-14">
+        <h1 className="mx-auto max-w-3xl text-balance text-[2.05rem] font-extrabold leading-[1.1] tracking-tight sm:text-5xl">
+          Se levarem seu celular, suas contas estarão protegidas?
+        </h1>
+        <p className="mx-auto mt-5 max-w-2xl text-lg text-navy-100 sm:text-xl">
+          Aprenda, com um passo a passo em vídeo, a configurar as proteções do
+          seu Android ou iPhone antes de viajar.
+        </p>
 
-        {temFoto && (
-          <figure className="md:order-last">
-            <img
-              src={hero.src}
-              alt={hero.alt}
-              width="1600"
-              height="900"
-              fetchPriority="high"
-              className="aspect-[4/3] w-full rounded-2xl object-cover object-[35%_50%] md:aspect-[5/4] md:object-[55%_50%]"
-            />
-            {hero.autor && (
-              <figcaption className="mt-2 text-xs text-navy-100">
-                Foto de{" "}
-                <a className="underline" href={hero.autorUrl}>
-                  {hero.autor}
-                </a>{" "}
-                no{" "}
-                <a className="underline" href={hero.unsplashUrl}>
-                  Unsplash
-                </a>
-              </figcaption>
-            )}
-          </figure>
+        {temVsl() && (
+          <div className="mx-auto mt-8 max-w-3xl">
+            <Vsl />
+          </div>
         )}
+
+        <div className="mt-8">
+          <Botao href="#oferta">Quero acessar o método</Botao>
+          <p className="mt-3 text-base font-semibold text-navy-100">
+            {preco} • {condicao}
+          </p>
+        </div>
       </Container>
     </header>
   );
@@ -100,25 +89,23 @@ function Hero() {
 
 /* 2. EXPECTATIVA */
 const beneficios = [
-  { icone: "shield", texto: "Mais proteção para suas contas." },
-  { icone: "bell", texto: "Menos informações expostas na tela bloqueada." },
-  { icone: "list", texto: "Passos definidos se o aparelho desaparecer." },
+  { icone: "bell", texto: "Reduza a exposição de mensagens e códigos nas notificações." },
+  { icone: "shield", texto: "Configure as proteções disponíveis para suas contas." },
+  { icone: "list", texto: "Prepare um plano para agir se o aparelho desaparecer." },
 ];
 
 function Expectativa() {
   return (
-    <section aria-labelledby="t-exp" className="py-14 sm:py-20">
+    <section aria-labelledby="t-exp" className="py-12 sm:py-16">
       <Container>
-        <Titulo id="t-exp">
-          Viaje com as proteções configuradas e um plano para agir.
-        </Titulo>
+        <Titulo id="t-exp">Prepare suas proteções antes de precisar delas.</Titulo>
         <ul className="mt-8 grid gap-6 sm:grid-cols-3 sm:gap-8">
           {beneficios.map((b) => (
             <li key={b.texto} className="flex items-start gap-4">
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-navy-900 text-white">
                 <Icon name={b.icone} />
               </span>
-              <p className="pt-2.5 text-lg font-semibold leading-snug text-navy-900">
+              <p className="pt-1.5 text-lg font-semibold leading-snug text-navy-900">
                 {b.texto}
               </p>
             </li>
@@ -129,64 +116,121 @@ function Expectativa() {
   );
 }
 
-/* 3. SOLUÇÃO */
-const itens = [
-  { icone: "lock", texto: "Senha, biometria e notificações" },
-  { icone: "chat", texto: "WhatsApp e e-mail" },
-  { icone: "remote", texto: "Proteções contra roubo e bloqueio remoto" },
-  { icone: "list", texto: "Preparação e ações de emergência" },
+/* 3. ENTREGA */
+const entregaveis = [
+  {
+    icone: "play",
+    titulo: "Passo a passo em vídeo",
+    texto: "Veja onde tocar e configure junto no seu celular.",
+  },
+  {
+    icone: "phone",
+    titulo: "Orientações para Android e iPhone",
+    texto: "Siga o caminho do seu sistema, conforme os recursos disponíveis no aparelho.",
+  },
+  {
+    icone: "printer",
+    titulo: "Checklist de emergência",
+    texto: "Consulte os passos e canais necessários sem depender do celular perdido.",
+  },
 ];
 
-function Solucao() {
+/** Composição só com materiais reais (config.materiais). */
+function Materiais() {
   return (
-    <section aria-labelledby="t-sol" className="bg-navy-50 py-14 sm:py-20">
-      <Container>
-        <Titulo id="t-sol">Assista. Pause. Configure no seu celular.</Titulo>
-        <p className="mt-3 text-lg text-muted">
-          Vídeos mostrando onde tocar, com trilhas para Android e iPhone.
-        </p>
-
-        <ul className="mt-8 grid gap-x-8 gap-y-5 sm:grid-cols-2">
-          {itens.map((i) => (
-            <li
-              key={i.texto}
-              className="flex items-center gap-4 border-b border-navy-100 pb-5"
-            >
-              <span className="text-navy-700">
-                <Icon name={i.icone} className="h-7 w-7 shrink-0" />
-              </span>
-              <span className="text-lg font-bold text-navy-900">{i.texto}</span>
-            </li>
-          ))}
-        </ul>
-        {previsto && (
-          <p className="mt-4 text-sm text-muted">
-            Conteúdo previsto: os temas podem ter ajustes até a versão final.
-          </p>
-        )}
-
-        {/* Faixa compacta do checklist */}
-        <div className="mt-10 flex flex-col gap-3 rounded-2xl bg-navy-900 p-5 text-white sm:flex-row sm:items-center sm:gap-5 sm:p-6">
-          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/10">
-            <Icon name="printer" />
-          </span>
-          <p className="text-base sm:text-lg">
-            <strong>Checklist de emergência</strong> para imprimir ou guardar
-            fora do celular, com os passos e os canais oficiais. Sem senhas.
-          </p>
+    <div className="relative mx-auto flex w-full max-w-md items-end justify-center gap-4 sm:gap-6">
+      {capturaVideo.src && (
+        <div className="w-[48%] max-w-[13rem] shrink-0 rounded-[2rem] border-[6px] border-navy-900 bg-navy-900 shadow-xl">
+          <img
+            src={capturaVideo.src}
+            alt={capturaVideo.alt}
+            loading="lazy"
+            className="aspect-[9/19] w-full rounded-[1.5rem] object-cover object-top"
+          />
         </div>
+      )}
+      {checklist.src && (
+        <img
+          src={checklist.src}
+          alt={checklist.alt}
+          loading="lazy"
+          className="w-[48%] max-w-[13rem] rounded-lg border border-navy-100 bg-white shadow-xl"
+        />
+      )}
+    </div>
+  );
+}
+
+function Entrega() {
+  return (
+    <section aria-labelledby="t-entrega" className="bg-navy-50 py-12 sm:py-16">
+      <Container
+        className={temMateriais ? "grid items-center gap-10 md:grid-cols-2" : ""}
+      >
+        <div>
+          <Titulo id="t-entrega">O que você recebe no Método Celular Protegido</Titulo>
+          <ul
+            className={`mt-8 grid gap-6 ${temMateriais ? "" : "sm:grid-cols-3 sm:gap-8"}`}
+          >
+            {entregaveis.map((e) => (
+              <li key={e.titulo} className="flex gap-4">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white text-navy-800 shadow-sm">
+                  <Icon name={e.icone} />
+                </span>
+                <div>
+                  <h3 className="text-lg font-extrabold uppercase leading-snug tracking-wide text-navy-900">
+                    {e.titulo}
+                  </h3>
+                  <p className="mt-1 text-lg text-muted">{e.texto}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        {temMateriais && <Materiais />}
       </Container>
     </section>
   );
 }
 
-/* 4. PROPOSTA */
+/* 4. CONTEÚDO */
+const temas = [
+  { icone: "lock", texto: "Senha, biometria e privacidade das notificações" },
+  { icone: "chat", texto: "Segurança do WhatsApp e do e-mail" },
+  { icone: "remote", texto: "Proteções contra roubo e bloqueio remoto disponíveis no aparelho" },
+  { icone: "list", texto: "Preparação e ações de emergência" },
+];
+
+function Conteudo() {
+  return (
+    <section aria-labelledby="t-conteudo" className="py-12 sm:py-16">
+      <Container>
+        <Titulo id="t-conteudo">O que o método ensina</Titulo>
+        <ol className="mt-6 grid gap-x-10 sm:grid-cols-2">
+          {temas.map((t) => (
+            <li
+              key={t.texto}
+              className="flex items-center gap-4 border-b border-navy-100 py-4"
+            >
+              <span className="text-navy-700">
+                <Icon name={t.icone} className="h-7 w-7 shrink-0" />
+              </span>
+              <span className="text-lg font-bold text-navy-900">{t.texto}</span>
+            </li>
+          ))}
+        </ol>
+        {previsto && (
+          <p className="mt-4 text-sm text-muted">
+            Conteúdo previsto: os temas podem ter ajustes até a versão final.
+          </p>
+        )}
+      </Container>
+    </section>
+  );
+}
+
+/* 5. OFERTA */
 function Oferta() {
-  const inclui = [
-    "Aulas em vídeo",
-    "Trilhas para Android e iPhone",
-    "Checklist de preparação e emergência",
-  ];
   const detalhes = [
     ["Entrega", config.entrega],
     ["Acesso", config.prazoAcesso],
@@ -195,34 +239,27 @@ function Oferta() {
   ].filter(([, v]) => v);
 
   return (
-    <section id="oferta" aria-labelledby="t-oferta" className="py-14 sm:py-20">
+    <section id="oferta" aria-labelledby="t-oferta" className="bg-navy-900 py-12 sm:py-16">
       <Container>
-        <div className="mx-auto max-w-xl text-center">
-          <Titulo id="t-oferta">Prepare seu celular antes da próxima viagem.</Titulo>
+        <div className="mx-auto max-w-lg rounded-3xl bg-white p-6 text-center shadow-2xl shadow-black/30 sm:p-10">
+          <Titulo id="t-oferta">Acesse o Método Celular Protegido</Titulo>
 
-          <p className="mt-8 text-navy-900">
-            <span className="block text-6xl font-extrabold tracking-tight">
-              R$ {config.preco.valor}
-            </span>
-            <span className="mt-1 block text-lg font-semibold text-muted">
-              {config.preco.condicao[0].toUpperCase() + config.preco.condicao.slice(1)}
-            </span>
+          <p className="mt-6 text-navy-900">
+            <span className="block text-6xl font-extrabold tracking-tight">{preco}</span>
+            <span className="mt-1 block text-lg font-semibold text-muted">{condicao}</span>
           </p>
 
           <ul className="mx-auto mt-6 w-fit space-y-2 text-left text-lg font-medium">
-            {inclui.map((t) => (
-              <li key={t} className="flex gap-3">
-                <span className="mt-1 text-green-700">
-                  <Icon name="check" className="h-5 w-5" />
-                </span>
-                {t}
-              </li>
-            ))}
+            <Check>Passo a passo em vídeo</Check>
+            <Check>Orientações para Android e iPhone</Check>
+            <Check>Checklist de preparação e emergência</Check>
           </ul>
 
           <div className="mt-7">
             {checkoutPronto ? (
-              <BotaoCompra className="sm:w-full">Quero acessar as aulas</BotaoCompra>
+              <Botao href={config.checkoutUrl.trim()} className="sm:w-full">
+                Quero acessar o método
+              </Botao>
             ) : (
               // PENDENTE: configurar checkoutUrl em src/config.js
               <p className="rounded-xl bg-navy-50 px-4 py-4 text-base font-semibold text-navy-800">
@@ -241,31 +278,25 @@ function Oferta() {
               ))}
             </dl>
           )}
-
-          <p className="mt-6 text-sm text-muted">
-            Os recursos variam conforme o aparelho e a versão do sistema. O
-            treinamento ensina configurações para reduzir riscos; não impede
-            roubos nem garante proteção total.
-          </p>
         </div>
       </Container>
     </section>
   );
 }
 
-/* 5. FAQ */
+/* 6. FAQ */
 const perguntas = [
   {
     p: "Preciso entender de tecnologia?",
-    r: "Não. As aulas mostram a tela e onde tocar. Você só precisa saber abrir as configurações e os aplicativos do seu celular.",
+    r: "Não. O passo a passo em vídeo mostra a tela e onde tocar. Basta saber abrir as configurações e os aplicativos do seu celular.",
   },
   {
     p: "Serve para o meu celular?",
-    r: "Há uma trilha para Android e outra para iPhone. Os menus variam conforme o modelo e a versão do sistema, então alguns passos podem ficar um pouco diferentes no seu aparelho.",
+    r: "Há orientações para Android e para iPhone. Os recursos e menus variam conforme o aparelho e a versão do sistema, então alguns passos podem ser diferentes no seu.",
   },
   {
-    p: "Isso impede o roubo do aparelho?",
-    r: "Não. O treinamento ensina configurações para reduzir riscos e preparar você para agir. Ele não impede roubos nem garante proteção total ou recuperação do aparelho.",
+    p: "O método impede o roubo?",
+    r: "Não. Ele ensina configurações que reduzem riscos e ajuda você a se preparar para agir. Não garante proteção total nem a recuperação do aparelho.",
   },
   {
     p: "Como recebo o acesso?",
@@ -276,10 +307,10 @@ const perguntas = [
 
 function Faq() {
   return (
-    <section aria-labelledby="t-faq" className="bg-navy-50 py-14 sm:py-20">
+    <section aria-labelledby="t-faq" className="py-12 sm:py-16">
       <Container>
         <Titulo id="t-faq">Perguntas frequentes</Titulo>
-        <div className="mt-8 max-w-3xl divide-y divide-navy-100 border-y border-navy-100">
+        <div className="mt-6 max-w-3xl divide-y divide-navy-100 border-y border-navy-100">
           {perguntas.map(({ p, r }) => (
             <details key={p} className="group">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-lg font-bold text-navy-900">
@@ -303,14 +334,13 @@ function Rodape() {
   return (
     <footer className="bg-navy-950 py-8 text-sm text-navy-100">
       <Container className="space-y-2">
-        <p className="font-bold text-white">
-          {config.produto.nome} — {config.produto.complemento}
-        </p>
+        <p className="font-bold text-white">{config.produto.nome}</p>
         {vendedor && <p>Vendido por {vendedor}</p>}
         {config.suporte && <p>Suporte: {config.suporte}</p>}
         <p>
-          Treinamento educativo e independente, sem vínculo com Apple, Google,
-          WhatsApp, bancos ou órgãos públicos.
+          Método educativo em vídeo, independente, sem vínculo com Apple,
+          Google, WhatsApp, bancos ou órgãos públicos. Não é aplicativo nem
+          seguro.
         </p>
       </Container>
     </footer>
@@ -323,7 +353,8 @@ export default function App() {
       <Hero />
       <main>
         <Expectativa />
-        <Solucao />
+        <Entrega />
+        <Conteudo />
         <Oferta />
         <Faq />
       </main>

@@ -1,4 +1,4 @@
-# Celular Protegido — Antes de Viajar (landing page)
+# Método Celular Protegido (landing page)
 
 Landing page em React + Vite + Tailwind. Sem rastreadores, fontes externas ou envio de dados.
 
@@ -22,10 +22,14 @@ prazo de acesso, suporte, reembolso e dados do vendedor.
 - `conteudoFinalizado: false` mantém as etiquetas de "conteúdo previsto".
   Mude para `true` quando as aulas e o checklist estiverem prontos.
 
-## Fotos
+## VSL e materiais do método
 
-A foto principal (Unsplash, Peter Chirkov) fica em `public/hero.jpg` e é configurada em `config.fotos.hero`.
-Enquanto `src` estiver vazio, o topo aparece sem foto. Use apenas imagens obtidas pelo
-Unsplash e mantenha o crédito do autor.
+- **VSL**: `config.vsl` aceita um `.mp4` próprio (`arquivo`) ou um link de
+  incorporação do YouTube/Vimeo (`embedUrl`), mais uma imagem de `capa`.
+  Sem vídeo configurado, o player não aparece. Com `embedUrl` + `capa`, o
+  player externo só carrega quando a pessoa clica. Nunca há autoplay com som.
+- **O que você recebe**: `config.materiais.capturaVideo` (captura vertical de um
+  vídeo do método) e `config.materiais.checklist` (imagem do checklist). Com
+  pelo menos um deles, a seção passa a ter duas colunas no computador.
 
-Avisos de pendência aparecem só no console em modo de desenvolvimento, nunca na página pública.
+Pendências aparecem só no console em modo de desenvolvimento, nunca na página pública.
