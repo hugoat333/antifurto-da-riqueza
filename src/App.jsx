@@ -61,6 +61,16 @@ function Check({ children }) {
 function Hero() {
   return (
     <header className="bg-navy-900 text-white">
+      {/* Banner fornecido pelo responsável (public/banner-topo.webp).
+          O texto da imagem está repetido no alt para leitores de tela. */}
+      <img
+        src="/banner-topo.webp"
+        alt="Método Celular Protegido. Veja o que você recebe: passo a passo em vídeo, orientações para Android e iPhone, 12 aulas. Conteúdo 100% digital."
+        width="2000"
+        height="667"
+        fetchPriority="high"
+        className="mx-auto block h-auto w-full max-w-[1600px]"
+      />
       <Container className="py-10 text-center sm:py-14">
         <h1 className="mx-auto max-w-3xl text-balance text-[2.05rem] font-extrabold leading-[1.1] tracking-tight sm:text-5xl">
           Se levarem seu celular, suas contas estarão protegidas?
