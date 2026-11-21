@@ -41,6 +41,15 @@ export const config = {
     endereco: "", // opcional: se ficar vazio, não aparece
   },
 
+  // Foto ao lado da headline (Unsplash, download registrado). Arquivo em public/.
+  fotoTopo: {
+    src: "/celular-topo.jpg",
+    alt: "Celular com a tela de bloqueio mostrando a hora e notificações.",
+    autor: "Arun Prakash",
+    autorUrl: "https://unsplash.com/@its_arunprakash",
+    unsplashUrl: "https://unsplash.com/photos/CE3UTjWF5lQ",
+  },
+
   // VSL (vídeo de vendas). PENDENTE: ainda não existe.
   // Preencha UMA das opções. Sem nenhuma, o player não aparece.
   //   arquivo: vídeo próprio .mp4 em public/ (ex.: "/vsl.mp4") ou URL https

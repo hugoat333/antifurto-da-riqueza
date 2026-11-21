@@ -59,39 +59,54 @@ function Check({ children }) {
 
 /* 1. DOR + VSL */
 function Hero() {
+  const foto = config.fotoTopo;
   return (
     <header className="bg-navy-900 text-white">
-      {/* Banner fornecido pelo responsável (public/banner-topo.webp).
-          O texto da imagem está repetido no alt para leitores de tela. */}
-      <img
-        src="/banner-topo.webp"
-        alt="Método Celular Protegido. Veja o que você recebe: passo a passo em vídeo, orientações para Android e iPhone, 12 aulas. Conteúdo 100% digital."
-        width="2000"
-        height="667"
-        fetchPriority="high"
-        className="mx-auto block h-auto w-full max-w-[1600px]"
-      />
-      <Container className="py-10 text-center sm:py-14">
-        <h1 className="mx-auto max-w-3xl text-balance text-[2.05rem] font-extrabold leading-[1.1] tracking-tight sm:text-5xl">
-          Se levarem seu celular, suas contas estarão protegidas?
-        </h1>
-        <p className="mx-auto mt-5 max-w-2xl text-lg text-navy-100 sm:text-xl">
-          Aprenda, com um passo a passo em vídeo, a configurar as proteções do
-          seu Android ou iPhone.
-        </p>
+      <Container className="py-10 sm:py-14">
+        <div className="grid items-center gap-8 md:grid-cols-[1.2fr_1fr] md:gap-12">
+          <div>
+            <h1 className="text-balance text-[2.05rem] font-extrabold leading-[1.1] tracking-tight sm:text-[2.6rem] lg:text-5xl">
+              Se levarem seu celular, suas contas estarão protegidas?
+            </h1>
+            <p className="mt-5 text-lg text-navy-100 sm:text-xl">
+              Aprenda, com um passo a passo em vídeo, a configurar as proteções
+              do seu Android ou iPhone.
+            </p>
+            <div className="mt-8">
+              <Botao href="#oferta">Quero acessar o método</Botao>
+              <p className="mt-3 text-base font-semibold text-navy-100">
+                {preco} • {condicao}
+              </p>
+            </div>
+          </div>
+
+          <figure className="mx-auto w-full max-w-sm md:max-w-none">
+            <img
+              src={foto.src}
+              alt={foto.alt}
+              width="1000"
+              height="1500"
+              fetchPriority="high"
+              className="aspect-[4/3] w-full rounded-2xl object-cover object-[55%_64%] brightness-110 md:aspect-square md:object-[60%_72%]"
+            />
+            <figcaption className="mt-2 text-xs text-navy-100">
+              Foto de{" "}
+              <a className="underline" href={foto.autorUrl}>
+                {foto.autor}
+              </a>{" "}
+              no{" "}
+              <a className="underline" href={foto.unsplashUrl}>
+                Unsplash
+              </a>
+            </figcaption>
+          </figure>
+        </div>
 
         {temVsl() && (
-          <div className="mx-auto mt-8 max-w-3xl">
+          <div className="mx-auto mt-10 max-w-3xl">
             <Vsl />
           </div>
         )}
-
-        <div className="mt-8">
-          <Botao href="#oferta">Quero acessar o método</Botao>
-          <p className="mt-3 text-base font-semibold text-navy-100">
-            {preco} • {condicao}
-          </p>
-        </div>
       </Container>
     </header>
   );
