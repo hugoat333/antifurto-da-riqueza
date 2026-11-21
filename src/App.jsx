@@ -80,25 +80,27 @@ function Hero() {
             </div>
           </div>
 
-          <figure className="mx-auto w-full max-w-sm md:max-w-none">
+          <figure className="w-full">
             <img
               src={foto.src}
               alt={foto.alt}
-              width="1000"
-              height="1500"
+              width={foto.largura}
+              height={foto.altura}
               fetchPriority="high"
-              className="aspect-[4/3] w-full rounded-2xl object-cover object-[55%_64%] brightness-110 md:aspect-square md:object-[60%_72%]"
+              className="aspect-[4/3] w-full rounded-2xl object-cover"
             />
-            <figcaption className="mt-2 text-xs text-navy-100">
-              Foto de{" "}
-              <a className="underline" href={foto.autorUrl}>
-                {foto.autor}
-              </a>{" "}
-              no{" "}
-              <a className="underline" href={foto.unsplashUrl}>
-                Unsplash
-              </a>
-            </figcaption>
+            {foto.autor && (
+              <figcaption className="mt-2 text-xs text-navy-100">
+                Foto de{" "}
+                <a className="underline" href={foto.autorUrl}>
+                  {foto.autor}
+                </a>{" "}
+                no{" "}
+                <a className="underline" href={foto.unsplashUrl}>
+                  Unsplash
+                </a>
+              </figcaption>
+            )}
           </figure>
         </div>
 

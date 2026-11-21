@@ -41,13 +41,16 @@ export const config = {
     endereco: "", // opcional: se ficar vazio, não aparece
   },
 
-  // Foto ao lado da headline (Unsplash, download registrado). Arquivo em public/.
+  // Imagem ao lado da headline (fornecida pelo responsável). Arquivo em public/.
+  // autor/autorUrl/unsplashUrl: preencha só se a imagem exigir crédito.
   fotoTopo: {
-    src: "/celular-topo.jpg",
-    alt: "Celular com a tela de bloqueio mostrando a hora e notificações.",
-    autor: "Arun Prakash",
-    autorUrl: "https://unsplash.com/@its_arunprakash",
-    unsplashUrl: "https://unsplash.com/photos/CE3UTjWF5lQ",
+    src: "/celulares-topo.webp",
+    alt: "Um celular Android e um iPhone lado a lado sobre uma mesa de madeira.",
+    largura: 1448,
+    altura: 1086,
+    autor: "",
+    autorUrl: "",
+    unsplashUrl: "",
   },
 
   // VSL (vídeo de vendas). PENDENTE: ainda não existe.
