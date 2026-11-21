@@ -57,7 +57,7 @@ function Hero() {
         }`}
       >
         <div className={temFoto ? "" : "max-w-3xl"}>
-          <h1 className="text-balance text-[2.1rem] font-extrabold leading-[1.1] tracking-tight sm:text-5xl">
+          <h1 className="text-[2.1rem] font-extrabold leading-[1.1] tracking-tight sm:text-[2.6rem]">
             Levaram seu celular. E se conseguirem acessar suas contas?
           </h1>
           <p className="mt-5 text-lg text-navy-100 sm:text-xl">
@@ -75,9 +75,9 @@ function Hero() {
               src={hero.src}
               alt={hero.alt}
               width="1600"
-              height="1200"
+              height="900"
               fetchPriority="high"
-              className="aspect-[4/3] w-full rounded-2xl object-cover md:aspect-[4/5]"
+              className="aspect-[4/3] w-full rounded-2xl object-cover object-[35%_50%] md:aspect-[5/4] md:object-[55%_50%]"
             />
             {hero.autor && (
               <figcaption className="mt-2 text-xs text-navy-100">

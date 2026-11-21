@@ -44,15 +44,16 @@ export const config = {
     endereco: "", // opcional: se ficar vazio, não aparece
   },
 
-  // FOTOS (Unsplash). PENDENTE: a conexão com o Unsplash estava bloqueada
-  // ("e-mail não confirmado"), então nenhuma foto foi aplicada ainda.
-  // Quando houver, preencha só com dados retornados pelo Unsplash:
-  //   src: URL da imagem (ex.: ...?w=1600&q=80&auto=format&fit=crop)
-  //   alt: descrição da foto em português
-  //   autor / autorUrl / unsplashUrl: crédito exibido sob a foto
-  // Com src vazio, o topo da página aparece sem foto.
+  // FOTOS (Unsplash). Arquivo local em public/, baixado pelo link oficial
+  // de download do Unsplash (download registrado). Crédito exibido sob a foto.
   fotos: {
-    hero: { src: "", alt: "", autor: "", autorUrl: "", unsplashUrl: "" },
+    hero: {
+      src: "/hero.jpg",
+      alt: "Mulher com mochila azul olhando o celular à beira de um lago, durante uma viagem.",
+      autor: "Peter Chirkov",
+      autorUrl: "https://unsplash.com/@visualkamikaze",
+      unsplashUrl: "https://unsplash.com/photos/8eFN_6BATAk",
+    },
   },
 
   // Mude para true quando todas as aulas estiverem gravadas. Enquanto for

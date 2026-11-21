@@ -24,7 +24,7 @@ prazo de acesso, suporte, reembolso e dados do vendedor.
 
 ## Fotos
 
-A foto principal é configurada em `config.fotos.hero` (src, alt e crédito do Unsplash).
+A foto principal (Unsplash, Peter Chirkov) fica em `public/hero.jpg` e é configurada em `config.fotos.hero`.
 Enquanto `src` estiver vazio, o topo aparece sem foto. Use apenas imagens obtidas pelo
 Unsplash e mantenha o crédito do autor.
 
