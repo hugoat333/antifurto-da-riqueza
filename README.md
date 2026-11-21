@@ -22,5 +22,10 @@ prazo de acesso, suporte, reembolso e dados do vendedor.
 - `conteudoFinalizado: false` mantém as etiquetas de "conteúdo previsto".
   Mude para `true` quando as aulas e o checklist estiverem prontos.
 
-A imagem do celular na primeira dobra é uma ilustração feita em CSS
-(`IlustracaoCelular` em `src/App.jsx`). Troque por captura real das aulas quando houver.
+## Fotos
+
+A foto principal é configurada em `config.fotos.hero` (src, alt e crédito do Unsplash).
+Enquanto `src` estiver vazio, o topo aparece sem foto. Use apenas imagens obtidas pelo
+Unsplash e mantenha o crédito do autor.
+
+Avisos de pendência aparecem só no console em modo de desenvolvimento, nunca na página pública.

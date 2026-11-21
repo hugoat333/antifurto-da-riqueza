@@ -44,6 +44,17 @@ export const config = {
     endereco: "", // opcional: se ficar vazio, não aparece
   },
 
+  // FOTOS (Unsplash). PENDENTE: a conexão com o Unsplash estava bloqueada
+  // ("e-mail não confirmado"), então nenhuma foto foi aplicada ainda.
+  // Quando houver, preencha só com dados retornados pelo Unsplash:
+  //   src: URL da imagem (ex.: ...?w=1600&q=80&auto=format&fit=crop)
+  //   alt: descrição da foto em português
+  //   autor / autorUrl / unsplashUrl: crédito exibido sob a foto
+  // Com src vazio, o topo da página aparece sem foto.
+  fotos: {
+    hero: { src: "", alt: "", autor: "", autorUrl: "", unsplashUrl: "" },
+  },
+
   // Mude para true quando todas as aulas estiverem gravadas. Enquanto for
   // false, a página apresenta a lista de aulas e o checklist como
   // "conteúdo previsto".
