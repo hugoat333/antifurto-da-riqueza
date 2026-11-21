@@ -67,7 +67,7 @@ function Hero() {
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-lg text-navy-100 sm:text-xl">
           Aprenda, com um passo a passo em vídeo, a configurar as proteções do
-          seu Android ou iPhone antes de viajar.
+          seu Android ou iPhone.
         </p>
 
         {temVsl() && (
@@ -293,10 +293,6 @@ const perguntas = [
   {
     p: "Serve para o meu celular?",
     r: "Há orientações para Android e para iPhone. Os recursos e menus variam conforme o aparelho e a versão do sistema, então alguns passos podem ser diferentes no seu.",
-  },
-  {
-    p: "O método impede o roubo?",
-    r: "Não. Ele ensina configurações que reduzem riscos e ajuda você a se preparar para agir. Não garante proteção total nem a recuperação do aparelho.",
   },
   {
     p: "Como recebo o acesso?",
